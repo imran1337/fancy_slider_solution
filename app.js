@@ -17,39 +17,38 @@ const showImages = (images) => {
   console.log(images);
   if (images.length > 0) {
     imagesArea.style.display = "block";
-  gallery.innerHTML = "";
-  // show gallery title
-  galleryHeader.style.display = "flex";
-  images.forEach((image) => {
-    let div = document.createElement("div");
-    div.className = "col-lg-3 col-md-4 col-xs-6 img-item mb-2";
-    div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
-    gallery.appendChild(div);
-    //hide error msg
-  document.getElementById('spinner').classList.add('d-none')
-  document.getElementById('err_show').classList.add('d-none')
-  });
+    gallery.innerHTML = "";
+    // show gallery title
+    galleryHeader.style.display = "flex";
+    images.forEach((image) => {
+      let div = document.createElement("div");
+      div.className = "col-lg-3 col-md-4 col-xs-6 img-item mb-2";
+      div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+      gallery.appendChild(div);
+      //hide error msg
+      document.getElementById("spinner").classList.add("d-none");
+      document.getElementById("err_show").classList.add("d-none");
+    });
   } else {
-    console.log('data not found');
+    console.log("data not found");
     // hide image aria
     imagesArea.style.display = "none";
     //show error msg
-    document.getElementById('err_show').classList.remove('d-none')
+    document.getElementById("err_show").classList.remove("d-none");
   }
 };
 
 // local storage items function
 function showStoredImage() {
-  let img = localStorage.getItem('images')
-  let pImg = JSON.parse(img)
-  showImages(pImg)
+  let img = localStorage.getItem("images");
+  let pImg = JSON.parse(img);
+  showImages(pImg);
 }
 
 //local storage data show
-if (localStorage.getItem('images') && localStorage.getItem('images') !== []) {
+if (localStorage.getItem("images") && localStorage.getItem("images") !== []) {
   showStoredImage();
 }
-
 
 const getImages = (query) => {
   fetch(
@@ -57,9 +56,9 @@ const getImages = (query) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      showImages(data.hits)
+      showImages(data.hits);
       //store image
-      localStorage.setItem('images' ,JSON.stringify(data.hits))
+      localStorage.setItem("images", JSON.stringify(data.hits));
     })
     .catch((err) => console.log(err));
 };
@@ -69,14 +68,14 @@ const selectItem = (event, img) => {
   let element = event.target;
   element.classList.toggle("added");
 
- //slide img select toggle
+  //slide img select toggle
   sliders.indexOf(img) === -1
     ? sliders.push(img)
     : (sliders = sliders.filter((slide) => slide !== img));
 };
 let timer;
 const createSlider = () => {
-  const durationInput = document.getElementById("duration")
+  const durationInput = document.getElementById("duration");
   const duration = parseFloat(durationInput.value) || 1000;
 
   // if (!duration) {
@@ -151,41 +150,42 @@ const changeSlide = (index) => {
 };
 
 searchBtn.addEventListener("click", function () {
-  const searchInput = document.getElementById('search');
+  const searchInput = document.getElementById("search");
   if (searchInput.value.length > 0 && searchInput.value !== " ") {
     document.querySelector(".main").style.display = "none";
     clearInterval(timer);
     const search = document.getElementById("search");
     getImages(search.value);
     sliders.length = 0;
-    spinnerHandler()
-  } else{
-    alert('please type something')
+    spinnerHandler();
+  } else {
+    alert("please type something");
   }
- 
 });
 
 sliderBtn.addEventListener("click", function () {
   createSlider();
-  if (sliders.length >= 2) {
+  if (sliders.length >= 2 && duration.value >= 0) {
     searchAndBackBtnToggle();
   }
 });
 
 function searchAndBackBtnToggle() {
-  document.getElementById('back_btn').classList.toggle('d-block')
-  document.getElementById('search_section').classList.toggle('d-none')
+  document.getElementById("back_btn").classList.toggle("d-block");
+  document.getElementById("search_section").classList.toggle("d-none");
 }
 
-//back go home 
-document.getElementById('back_btn').addEventListener('click',() => {
-  searchAndBackBtnToggle()
+//back go home
+document.getElementById("back_btn").addEventListener("click", () => {
+  searchAndBackBtnToggle();
   imagesArea.style.display = "block";
-  document.querySelector('.main').style.display = 'none';
-  document.querySelectorAll('.added').forEach(e => e.classList.remove('added'))
+  document.querySelector(".main").style.display = "none";
+  document
+    .querySelectorAll(".added")
+    .forEach((e) => e.classList.remove("added"));
   sliders.length = 0;
   clearInterval(timer);
-})
+});
 
 //enter search btn click
 search.addEventListener("keydown", (event) => {
@@ -203,7 +203,7 @@ duration.addEventListener("keydown", (event) => {
 
 //spinner
 function spinnerHandler() {
-  document.getElementById('spinner').classList.remove('d-none')
+  document.getElementById("spinner").classList.remove("d-none");
   gallery.innerHTML = "";
   galleryHeader.style.display = "none";
 }
