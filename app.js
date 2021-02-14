@@ -76,15 +76,24 @@ const selectItem = (event, img) => {
 };
 let timer;
 const createSlider = () => {
-  const duration = document.getElementById("duration").value;
-  if (duration <= 0) {
+  const durationInput = document.getElementById("duration")
+  const duration = parseFloat(durationInput.value) || 1000;
+
+  // if (!duration) {
+  //   durationInput.value = 0;
+  //  return;
+  // }
+
+  if (duration < 0) {
     alert("Invalid Value");
   } else {
     // check slider image length
     if (sliders.length < 2) {
       alert("Select at least 2 image.");
+      console.log("duration", duration);
       return;
     }
+
     // crate slider previous next area
     sliderContainer.innerHTML = "";
     const prevNext = document.createElement("div");
@@ -112,6 +121,7 @@ const createSlider = () => {
     timer = setInterval(function () {
       slideIndex++;
       changeSlide(slideIndex);
+      console.log(duration);
     }, duration);
   }
 };
@@ -157,7 +167,7 @@ searchBtn.addEventListener("click", function () {
 
 sliderBtn.addEventListener("click", function () {
   createSlider();
-  if (sliders.length >= 2 && duration.value > 0) {
+  if (sliders.length >= 2) {
     searchAndBackBtnToggle();
   }
 });
@@ -174,6 +184,7 @@ document.getElementById('back_btn').addEventListener('click',() => {
   document.querySelector('.main').style.display = 'none';
   document.querySelectorAll('.added').forEach(e => e.classList.remove('added'))
   sliders.length = 0;
+  clearInterval(timer);
 })
 
 //enter search btn click
