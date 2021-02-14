@@ -26,6 +26,7 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div);
     //hide error msg
+  document.getElementById('spinner').classList.add('d-none')
   document.getElementById('err_show').classList.add('d-none')
   });
   } else {
@@ -75,7 +76,7 @@ const selectItem = (event, img) => {
 };
 let timer;
 const createSlider = () => {
-  const duration = document.getElementById("duration").value || 1000;
+  const duration = document.getElementById("duration").value;
   if (duration <= 0) {
     alert("Invalid Value");
   } else {
@@ -114,7 +115,6 @@ const createSlider = () => {
     }, duration);
   }
 };
-
 // change slider index
 const changeItem = (index) => {
   changeSlide((slideIndex += index));
@@ -146,11 +146,29 @@ searchBtn.addEventListener("click", function () {
   const search = document.getElementById("search");
   getImages(search.value);
   sliders.length = 0;
+  spinnerHandler()
 });
 
 sliderBtn.addEventListener("click", function () {
   createSlider();
+  if (sliders.length >= 2 && duration.value > 0) {
+    searchAndBackBtnToggle();
+  }
 });
+
+function searchAndBackBtnToggle() {
+  document.getElementById('back_btn').classList.toggle('d-block')
+  document.getElementById('search_section').classList.toggle('d-none')
+}
+
+//back go home 
+document.getElementById('back_btn').addEventListener('click',() => {
+  searchAndBackBtnToggle()
+  imagesArea.style.display = "block";
+  document.querySelector('.main').style.display = 'none';
+  document.querySelectorAll('.added').forEach(e => e.classList.remove('added'))
+  sliders.length = 0;
+})
 
 //enter search btn click
 search.addEventListener("keydown", (event) => {
@@ -159,9 +177,16 @@ search.addEventListener("keydown", (event) => {
   }
 });
 
-//enter Slider btn click
+// enter Slider btn click
 duration.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     sliderBtn.click();
   }
 });
+
+//spinner
+function spinnerHandler() {
+  document.getElementById('spinner').classList.remove('d-none')
+  gallery.innerHTML = "";
+  galleryHeader.style.display = "none";
+}
