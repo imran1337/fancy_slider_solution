@@ -141,12 +141,18 @@ const changeSlide = (index) => {
 };
 
 searchBtn.addEventListener("click", function () {
-  document.querySelector(".main").style.display = "none";
-  clearInterval(timer);
-  const search = document.getElementById("search");
-  getImages(search.value);
-  sliders.length = 0;
-  spinnerHandler()
+  const searchInput = document.getElementById('search');
+  if (searchInput.value.length > 0 && searchInput.value !== " ") {
+    document.querySelector(".main").style.display = "none";
+    clearInterval(timer);
+    const search = document.getElementById("search");
+    getImages(search.value);
+    sliders.length = 0;
+    spinnerHandler()
+  } else{
+    alert('please type something')
+  }
+ 
 });
 
 sliderBtn.addEventListener("click", function () {
