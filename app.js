@@ -75,14 +75,8 @@ const selectItem = (event, img) => {
 };
 let timer;
 const createSlider = () => {
-  const durationInput = document.getElementById("duration");
-  const duration = parseFloat(durationInput.value) || 1000;
-
-  // if (!duration) {
-  //   durationInput.value = 0;
-  //  return;
-  // }
-
+  const duration = document.getElementById("duration").value || 1000;
+  
   if (duration < 0) {
     alert("Invalid Value");
   } else {
