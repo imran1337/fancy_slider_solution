@@ -40,9 +40,9 @@ const showImages = (images) => {
 
 // local storage items function
 function showStoredImage() {
-  let img = localStorage.getItem("images");
-  let pImg = JSON.parse(img);
-  showImages(pImg);
+  const img = localStorage.getItem("images");
+  const storedImg = JSON.parse(img);
+  showImages(storedImg);
 }
 
 //local storage data show
