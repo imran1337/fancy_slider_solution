@@ -14,7 +14,6 @@ const KEY = "15674931-a9d714b6e9d654524df198e00&q";
 
 // show images
 const showImages = (images) => {
-  console.log(images);
   if (images.length > 0) {
     imagesArea.style.display = "block";
     gallery.innerHTML = "";
@@ -30,7 +29,6 @@ const showImages = (images) => {
       document.getElementById("err_show").classList.add("d-none");
     });
   } else {
-    console.log("data not found");
     // hide image aria
     imagesArea.style.display = "none";
     //show error msg
@@ -83,7 +81,6 @@ const createSlider = () => {
     // check slider image length
     if (sliders.length < 2) {
       alert("Select at least 2 image.");
-      console.log("duration", duration);
       return;
     }
 
